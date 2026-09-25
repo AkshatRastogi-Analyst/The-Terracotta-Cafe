@@ -2,6 +2,14 @@ import { type FormEvent, type ReactNode, useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ArrowRight, ArrowUpRight, CalendarDays, Check, Clock3, MapPin, Phone, Users } from 'lucide-react';
 import heroImage from '@assets/caption_1790330334346.jpg';
+import americanoImage from '@assets/WhatsApp_Image_2026-09-25_at_6.16.49_PM_1790331532511.jpeg';
+import artisanMochaImage from '@assets/WhatsApp_Image_2026-09-25_at_6.16.49_PM_(2)_1790331532511.jpeg';
+import cappuccinoImage from '@assets/WhatsApp_Image_2026-09-25_at_6.16.48_PM_(1)_1790331532509.jpeg';
+import cortadoImage from '@assets/WhatsApp_Image_2026-09-25_at_6.16.50_PM_1790331532513.jpeg';
+import espressoImage from '@assets/WhatsApp_Image_2026-09-25_at_6.16.48_PM_1790331532510.jpeg';
+import flatWhiteImage from '@assets/WhatsApp_Image_2026-09-25_at_6.16.50_PM_(1)_1790331532512.jpeg';
+import latteImage from '@assets/WhatsApp_Image_2026-09-25_at_6.16.48_PM_(2)_1790331532509.jpeg';
+import loadedMochaImage from '@assets/WhatsApp_Image_2026-09-25_at_6.16.49_PM_(1)_1790331532510.jpeg';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -30,14 +38,14 @@ const menuCategories: MenuCategory[] = [
     note: 'Slow pours, bold roasts, familiar comforts.',
     image: '/images/hot-beverages.jpg',
     items: [
-      { name: 'Espresso', price: '₹100', description: 'A short, intense pull with a caramel finish.', image: '/images/hot-beverages.jpg' },
-      { name: 'Cappuccino', price: '₹150', description: 'Velvety foam over our house espresso.', image: '/images/hot-beverages.jpg' },
-      { name: 'Cafe Latte', price: '₹160', description: 'Silky steamed milk, gently balanced.', image: '/images/hot-beverages.jpg' },
-      { name: 'Americano', price: '₹120', description: 'Espresso lengthened with hot water.', image: '/images/hot-beverages.jpg' },
-      { name: 'Signature Hot Chocolate', price: '₹180', description: 'Dark cocoa, warm milk and a soft spice note.', image: '/images/hot-beverages.jpg' },
-      { name: 'Cafe Mocha', price: '₹170', description: 'House chocolate folded into espresso and milk.', image: '/images/hot-beverages.jpg' },
-      { name: 'Cortado', price: '₹140', description: 'A neat equal measure of coffee and warm milk.', image: '/images/hot-beverages.jpg' },
-      { name: 'Flat White', price: '₹150', description: 'Microfoam and a double shot, quietly strong.', image: '/images/hot-beverages.jpg' },
+      { name: 'Espresso', price: '₹100', description: 'A short, intense pull with a caramel finish.', image: espressoImage },
+      { name: 'Cappuccino', price: '₹150', description: 'Velvety foam over our house espresso.', image: cappuccinoImage },
+      { name: 'Cafe Latte', price: '₹160', description: 'Silky steamed milk, gently balanced.', image: latteImage },
+      { name: 'Americano', price: '₹120', description: 'Espresso lengthened with hot water.', image: americanoImage },
+      { name: 'Signature Hot Chocolate', price: '₹180', description: 'Dark cocoa, warm milk and a soft spice note.', image: loadedMochaImage },
+      { name: 'Cafe Mocha', price: '₹170', description: 'House chocolate folded into espresso and milk.', image: artisanMochaImage },
+      { name: 'Cortado', price: '₹140', description: 'A neat equal measure of coffee and warm milk.', image: cortadoImage },
+      { name: 'Flat White', price: '₹150', description: 'Microfoam and a double shot, quietly strong.', image: flatWhiteImage },
     ],
   },
   {
@@ -242,7 +250,7 @@ function Home() {
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {category.items.map((item, itemIndex) => (
                     <article key={item.name} data-testid={`card-menu-${categoryIndex}-${itemIndex}`} className="menu-card overflow-hidden rounded-sm border border-[hsl(var(--border))] bg-[hsl(var(--card))]">
-                      <div className="relative aspect-[1.55] overflow-hidden bg-[hsl(var(--muted))]">
+                      <div className={`relative overflow-hidden bg-[hsl(var(--muted))] ${categoryIndex === 0 ? 'aspect-[4/5]' : 'aspect-[1.55]'}`}>
                         <img src={item.image} alt={`${item.name} at The Terracotta Cafe`} className="h-full w-full object-cover" loading={categoryIndex === 0 && itemIndex < 2 ? 'eager' : 'lazy'} />
                         <span className="absolute right-3 top-3 rounded-sm bg-[hsl(var(--card))] px-2.5 py-1 font-mono text-xs text-[hsl(var(--primary))]">{item.price}</span>
                       </div>
