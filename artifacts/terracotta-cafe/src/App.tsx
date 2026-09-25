@@ -1,6 +1,7 @@
 import { type FormEvent, type ReactNode, useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ArrowRight, ArrowUpRight, CalendarDays, Check, Clock3, MapPin, Phone, Users } from 'lucide-react';
+import heroImage from '@assets/caption_1790330334346.jpg';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -189,8 +190,8 @@ function Home() {
               Open daily · 8:15 AM — 11:00 PM
             </div>
           </div>
-          <div className="relative min-h-[390px] overflow-hidden rounded-sm lg:min-h-[625px]">
-            <img src="/images/terracotta-hero.jpg" alt="Warm terracotta cafe interior with low seating and a coffee table" className="hero-image absolute inset-0 h-full w-full object-cover" />
+          <div className="relative aspect-[3/4] overflow-hidden rounded-sm">
+            <img src={heroImage} alt="The cafe interior with a Terracotta Cafe logo on the table, plants, and a hanging pendant light" className="hero-image absolute inset-0 h-full w-full object-cover" />
             <div className="image-shade absolute inset-0" />
             <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between text-[hsl(var(--primary-foreground))] sm:bottom-8 sm:left-8 sm:right-8">
               <p className="max-w-[15ch] font-display text-2xl leading-tight sm:text-3xl">Come in for a while.</p>
