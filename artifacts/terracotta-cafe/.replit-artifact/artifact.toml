@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "The Terracotta Cafe"
+description = "A warm, mobile-friendly website for The Terracotta Cafe in Varanasi, featuring its complete menu, cafe story, and a reservation form."
+version = "1.0.0"
+id = "artifacts/terracotta-cafe"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23602
+
+[services.development]
+run = "pnpm --filter @workspace/terracotta-cafe run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/terracotta-cafe", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/terracotta-cafe/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23602"
+BASE_PATH = "/"
