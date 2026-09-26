@@ -174,7 +174,7 @@ function Footer() {
       </div>
       <div className="flex flex-col gap-3 border-t border-[hsl(var(--primary-foreground))]/15 px-5 py-6 text-center font-mono text-[10px] tracking-[0.17em] text-[hsl(var(--primary-foreground))]/55 sm:flex-row sm:items-center sm:justify-between sm:text-left" data-testid="text-footer-credit">
         <span>Made by Akshat Rastogi</span>
-        <a className="tracking-normal hover:text-[hsl(var(--accent))]" href="mailto:akshat2592002@gmail.com">akshat2592002@gmail.com</a>
+        <a className="tracking-normal hover:text-[hsl(var(--accent))]" href="mailto:contact@terracottacafe.com">contact@terracottacafe.com</a>
       </div>
     </footer>
   );
