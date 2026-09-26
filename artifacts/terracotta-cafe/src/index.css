@@ -119,6 +119,38 @@ button { cursor: pointer; }
 }
 .menu-card img { transition: transform 500ms cubic-bezier(.2,.8,.2,1); }
 .menu-card:hover img { transform: scale(1.045); }
+.page-transition { animation: page-in 420ms cubic-bezier(.2,.8,.2,1) both; }
+.category-tab {
+  border: 1px solid hsl(var(--border));
+  border-radius: 999px;
+  padding: 0.6rem 1rem;
+  color: hsl(var(--muted-foreground));
+  font-size: 0.82rem;
+  transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+.category-tab:hover { border-color: hsl(var(--primary)); color: hsl(var(--primary)); transform: translateY(-1px); }
+.category-tab.is-active { border-color: hsl(var(--primary)); background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+.order-panel { box-shadow: 0 16px 42px rgba(88, 49, 32, 0.08); }
+.field-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.phone-field {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 2px;
+  background: hsl(var(--card));
+  padding: 0 0.875rem;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+.phone-field:focus-within { border-color: hsl(var(--primary)); box-shadow: 0 0 0 3px hsla(15, 62%, 39%, 0.13); }
+.phone-field input::placeholder { color: hsl(var(--muted-foreground)); }
 .image-shade { background: linear-gradient(180deg, rgba(29, 16, 11, 0.03), rgba(29, 16, 11, 0.3)); }
 .button-primary {
   transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
@@ -140,6 +172,7 @@ button { cursor: pointer; }
 .input-field[aria-invalid="true"] { border-color: hsl(var(--destructive)); }
 @keyframes hero-in { from { opacity: 0; transform: scale(1.05); } to { opacity: 1; transform: scale(1); } }
 @keyframes reveal-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes page-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 1ms !important; transition-duration: 1ms !important; }
 }

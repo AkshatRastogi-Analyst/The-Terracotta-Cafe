@@ -10,6 +10,10 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: orders
+    description: Dine-in order operations
+  - name: reservations
+    description: Table reservation operations
 paths:
   /healthz:
     get:
@@ -24,6 +28,50 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /orders:
+    post:
+      operationId: createOrder
+      tags: [orders]
+      summary: Save a dine-in order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrderRequest"
+      responses:
+        "201":
+          description: Order saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateOrderResponse"
+        "400":
+          description: Invalid order
+        "500":
+          description: Order could not be saved
+  /reservations:
+    post:
+      operationId: createReservation
+      tags: [reservations]
+      summary: Save a table reservation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateReservationRequest"
+      responses:
+        "201":
+          description: Reservation saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateReservationResponse"
+        "400":
+          description: Invalid reservation
+        "500":
+          description: Reservation could not be saved
 components:
   schemas:
     HealthStatus:
@@ -33,4 +81,67 @@ components:
           type: string
       required:
         - status
+    OrderItem:
+      type: object
+      properties:
+        name:
+          type: string
+        quantity:
+          type: integer
+          minimum: 1
+        price:
+          type: integer
+          minimum: 0
+      required: [name, quantity, price]
+    CreateOrderRequest:
+      type: object
+      properties:
+        customerName:
+          type: string
+        phone:
+          type: string
+        tableNumber:
+          type: string
+        items:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/OrderItem"
+        total:
+          type: integer
+          minimum: 0
+      required: [customerName, phone, tableNumber, items, total]
+    CreateOrderResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        orderId:
+          type: integer
+      required: [success, orderId]
+    CreateReservationRequest:
+      type: object
+      properties:
+        fullName:
+          type: string
+        phone:
+          type: string
+        date:
+          type: string
+        time:
+          type: string
+        guests:
+          type: integer
+          minimum: 1
+        notes:
+          type: string
+      required: [fullName, phone, date, time, guests]
+    CreateReservationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        reservationId:
+          type: integer
+      required: [success, reservationId]
 

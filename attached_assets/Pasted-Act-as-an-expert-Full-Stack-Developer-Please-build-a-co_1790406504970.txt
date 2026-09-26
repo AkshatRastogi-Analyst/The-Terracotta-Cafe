@@ -1,0 +1,30 @@
+Act as an expert Full-Stack Developer. Please build a complete, premium restaurant web application for "Terracotta Cafe". This is strictly a dine-in restaurant (no delivery). Use a modern stack (React, Node.js, Express) and ensure the application is production-ready, beautiful, and bug-free.
+Implement the following features and strict requirements in a single pass:
+1. Global UI & Animations
+ * Aesthetic & Hero Banner: Use a premium, warm, minimalist design (terracotta/earthy color palette). The main Hero Banner at the top of the landing page must feature the name "Terracotta Cafe" prominently in a bold, highly aesthetic, and premium font.
+ * Page Transitions: Implement smooth, premium page transition animations (using Framer Motion or smooth CSS fade/slides) between the Home, Menu, and Reservation pages to give it a high-end feel.
+ * Footer: Add a footer containing the text "Made by Akshat Rastogi" in a clean, aesthetic font. Next to it, include a clickable mailto: link for akshat2592002@gmail.com.
+2. Landing Page (Home)
+ * Interactive Reviews: Include a stylish review badge. When clicked, it must open a sleek modal or dropdown displaying 5-6 hardcoded, well-written 5-star customer reviews (including reviewer names and star ratings).
+3. Menu Page & State Bug Fixes
+ * Categories: The menu must be separated by specific tabs (e.g., Coffee, Pizza, Pasta, Shakes). Do not include an "Everything" category.
+ * Dynamic Item Counts: At the top of the menu, display a dynamic count based on the selected category (e.g., "5 delicious pastas", "4 refreshing shakes").
+ * Add-to-Cart Bug Fixes:
+   * When clicking "Add to Order", the item must seamlessly add to the cart without causing the page to jump or scroll to the top.
+   * Prevent the active category from resetting. If a user is looking at the "Pizza" tab and adds a pizza to their order, the menu must stay on the "Pizza" tab, not jump back to the default "Coffee" tab.
+4. Dine-In Cart & Order Confirmation
+ * Dine-In Flow: Title the cart "Dine-In Details" (not delivery). Remove any address fields. Add a required input for "Table Number" (e.g., T-14).
+ * Phone Number: The phone number input field must have +91 hardcoded as a permanent, uneditable prefix.
+ * Success Screen: After an order is successfully placed, replace the checkout form with a success UI that reads exactly: "Your order has been placed sir/mam." Below this, display a summary of the ordered items and the total amount so the customer can review their purchase.
+5. Table Reservations Form
+ * Include a standard reservation form requesting: Name, Date, Time, Number of Guests, and Special Notes.
+6. Backend & Email Notifications (Node.js/Express)
+ * No Twilio: Do not use Twilio or WhatsApp APIs.
+ * Database: Save incoming orders and reservations to a lightweight database (e.g., SQLite or a structured JSON file).
+ * Nodemailer Integration: After a successful database save, use nodemailer to send an alert email.
+   * Configure the transporter with service: 'gmail'.
+   * Auth credentials: user: 'akshat2592002@gmail.com' and pass: process.env.EMAIL_PASS.
+   * Orders Email: Send TO akshat2592002@gmail.com. Subject: "New Dine-In Order - Table [Number]". Body: Customer name, table, itemized list, and total.
+   * Reservations Email: Send TO akshat2592002@gmail.com. Subject: "New Reservation - [Date]". Body: Customer name, date/time, guests, notes.
+ * Graceful Error Handling: Wrap the transporter.sendMail in a try/catch block. If the email fails to send, log the error to the console, but the API must still return a 200/201 success status to the frontend so the customer sees the success screen.
+Please generate the necessary project structure, frontend components, state management, and backend routes to fulfill this entire prompt.
