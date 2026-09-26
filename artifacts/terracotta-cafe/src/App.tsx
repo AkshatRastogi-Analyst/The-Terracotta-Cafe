@@ -1,4 +1,5 @@
 import { type FormEvent, type ReactNode, useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
   ArrowRight,
@@ -234,13 +235,14 @@ function ReviewModal({ onClose }: { onClose: () => void }) {
     document.body.style.overflow = 'hidden';
     return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
   }, [onClose]);
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[hsl(var(--foreground))]/70 p-5" role="dialog" aria-modal="true" aria-labelledby="reviews-title" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
+  return createPortal(
+    <div className="fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-black/50 p-5" role="dialog" aria-modal="true" aria-labelledby="reviews-title" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
       <div className="review-modal max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-sm bg-[hsl(var(--card))] p-6 shadow-2xl sm:p-10">
         <div className="mb-8 flex items-start justify-between gap-5 border-b border-[hsl(var(--border))] pb-6"><div><p className="eyebrow">What guests say</p><h2 id="reviews-title" className="mt-2 font-display text-4xl">Good words, shared slowly.</h2></div><button type="button" aria-label="Close reviews" onClick={onClose} className="rounded-full p-2 hover:bg-[hsl(var(--muted))]"><X size={20} /></button></div>
         <div className="grid gap-5 sm:grid-cols-2">{reviews.map((review) => <article key={review.name} className="review-card border border-[hsl(var(--border))] p-5"><div className="flex items-center justify-between gap-4"><div className="flex gap-0.5 text-[hsl(var(--accent))]" aria-label="5 out of 5 stars">{Array.from({ length: 5 }, (_, index) => <Star key={index} size={14} fill="currentColor" aria-hidden="true" />)}</div><span className="font-mono text-[10px] uppercase tracking-wider text-[hsl(var(--muted-foreground))]">5.0 / 5</span></div><p className="mt-4 text-sm leading-relaxed text-[hsl(var(--muted-foreground))]">“{review.text}”</p><p className="mt-5 font-semibold">{review.name}</p><p className="mt-1 font-mono text-[10px] uppercase tracking-wider text-[hsl(var(--muted-foreground))]">{review.date}</p></article>)}</div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 
