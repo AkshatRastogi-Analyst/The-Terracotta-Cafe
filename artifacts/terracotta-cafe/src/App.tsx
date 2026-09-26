@@ -283,7 +283,7 @@ function MenuPage({ cart, setCart }: { cart: CartLine[]; setCart: React.Dispatch
       return;
     }
     try {
-      const response = await fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ customerName, phone: `+91 ${phone}`, tableNumber, total, items: cart.map(({ name, quantity, price }) => ({ name, quantity, price: priceValue(price) })) }) });
+      const response = await fetch(import.meta.env.VITE_API_URL + '/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ customerName, phone: `+91 ${phone}`, tableNumber, total, items: cart.map(({ name, quantity, price }) => ({ name, quantity, price: priceValue(price) })) }) });
       if (!response.ok) throw new Error('Unable to place order');
       setOrderSuccess(true);
     } catch {
@@ -333,7 +333,7 @@ function ReservationsPage() {
     event.preventDefault();
     if (!form.fullName.trim() || form.phone.length < 10 || !form.date || !form.time || !form.guests) { setError('Please complete every required field before sending your request.'); return; }
     try {
-      const response = await fetch('/api/reservations', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...form, phone: `+91 ${form.phone}`, guests: Number(form.guests) }) });
+      const response = await fetch(import.meta.env.VITE_API_URL + '/api/reservations', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...form, phone: `+91 ${form.phone}`, guests: Number(form.guests) }) });
       if (!response.ok) throw new Error('Unable to save reservation');
       setSubmitted(true);
     } catch { setError('We could not save your reservation right now. Please try again.'); }
