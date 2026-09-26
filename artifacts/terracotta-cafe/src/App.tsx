@@ -27,7 +27,7 @@ import loadedMochaImage from '@assets/WhatsApp_Image_2026-09-25_at_6.16.49_PM_(1
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { useLocation, Router as WouterRouter } from 'wouter';
+import { Link, useLocation, Router as WouterRouter } from 'wouter';
 
 const queryClient = new QueryClient();
 const appBase = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -130,6 +130,8 @@ const formatPrice = (amount: number) => `₹${amount}`;
 
 function Header({ cartCount }: { cartCount: number }) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [location] = useLocation();
+  const isReservationPage = location.startsWith('/reservations');
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 24);
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -137,23 +139,23 @@ function Header({ cartCount }: { cartCount: number }) {
   }, []);
 
   return (
-    <header className={`site-header fixed inset-x-0 top-0 z-40 ${isScrolled ? 'is-scrolled' : ''}`}>
+    <header className={`site-header fixed inset-x-0 top-0 z-40 ${isScrolled ? 'is-scrolled' : ''} ${isReservationPage ? 'is-reservation' : ''}`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8 lg:px-12">
-        <a href={appPath('/')} data-testid="link-logo" className="group flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[hsl(var(--primary))] text-[hsl(var(--primary))]"><span className="font-display text-xl">T</span></span>
-          <span className="hidden text-sm font-semibold tracking-[0.15em] text-[hsl(var(--foreground))] sm:inline">TERRACOTTA</span>
-        </a>
+        <Link href={appPath('/')} data-testid="link-logo" className="header-logo group flex items-center gap-3">
+          <span className="header-logo-mark flex h-10 w-10 items-center justify-center rounded-full border border-[hsl(var(--primary))] text-[hsl(var(--primary))]"><span className="font-display text-xl">T</span></span>
+          <span className="header-wordmark hidden text-sm font-semibold tracking-[0.15em] text-[hsl(var(--foreground))] sm:inline">TERRACOTTA</span>
+        </Link>
         <nav aria-label="Main navigation" className="hidden items-center gap-8 md:flex">
-          <a href={appPath('/')} data-testid="link-home" className="text-sm text-[hsl(var(--muted-foreground))] transition-colors hover:text-[hsl(var(--primary))]">Home</a>
-          <a href={appPath('/menu')} data-testid="link-menu" className="text-sm text-[hsl(var(--muted-foreground))] transition-colors hover:text-[hsl(var(--primary))]">Menu</a>
-          <a href={appPath('/reservations')} data-testid="link-reservations" className="text-sm text-[hsl(var(--muted-foreground))] transition-colors hover:text-[hsl(var(--primary))]">Reservations</a>
+          <Link href={appPath('/')} data-testid="link-home" className="header-nav-link text-sm text-[hsl(var(--muted-foreground))] transition-colors hover:text-[hsl(var(--primary))]">Home</Link>
+          <Link href={appPath('/menu')} data-testid="link-menu" className="header-nav-link text-sm text-[hsl(var(--muted-foreground))] transition-colors hover:text-[hsl(var(--primary))]">Menu</Link>
+          <Link href={appPath('/reservations')} data-testid="link-reservations" className="header-nav-link text-sm text-[hsl(var(--muted-foreground))] transition-colors hover:text-[hsl(var(--primary))]">Reservations</Link>
         </nav>
         <div className="flex items-center gap-3">
-          <a href={appPath('/menu')} data-testid="link-header-order" className="relative hidden items-center gap-2 border border-[hsl(var(--border))] px-3 py-2 text-xs font-semibold text-[hsl(var(--foreground))] sm:inline-flex">
-            <ShoppingBag size={15} aria-hidden="true" /> Order
+          <Link href={appPath('/menu#cart')} data-testid="link-header-cart" className="header-cart-link relative hidden items-center gap-2 border border-[hsl(var(--border))] px-3 py-2 text-xs font-semibold text-[hsl(var(--foreground))] sm:inline-flex">
+            <ShoppingBag size={15} aria-hidden="true" /> Cart
             {cartCount > 0 && <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[hsl(var(--accent))] px-1 text-[10px]">{cartCount}</span>}
-          </a>
-          <a href={appPath('/reservations')} data-testid="link-header-book" className="button-primary inline-flex items-center gap-2 rounded-sm bg-[hsl(var(--primary))] px-4 py-2.5 text-xs font-semibold tracking-[0.08em] text-[hsl(var(--primary-foreground))]">Book a Table <ArrowUpRight size={15} aria-hidden="true" /></a>
+          </Link>
+          <Link href={appPath('/reservations')} data-testid="link-header-book" className="header-book-link button-primary inline-flex items-center gap-2 rounded-sm bg-[hsl(var(--primary))] px-4 py-2.5 text-xs font-semibold tracking-[0.08em] text-[hsl(var(--primary-foreground))]">Book a Table <ArrowUpRight size={15} aria-hidden="true" /></Link>
         </div>
       </div>
     </header>
@@ -185,6 +187,7 @@ function HomePage() {
       <main id="top">
         <section className="relative mx-auto grid min-h-[760px] max-w-7xl items-end gap-10 px-5 pb-16 pt-32 sm:px-8 lg:grid-cols-[0.86fr_1.14fr] lg:gap-16 lg:px-12 lg:pb-24 lg:pt-40">
           <div className="relative z-10 max-w-xl reveal">
+            <p className="hero-quote mb-8 max-w-sm font-display text-xl italic leading-relaxed text-[hsl(var(--primary))] sm:text-2xl">“Slow mornings, warm cups, good company.”</p>
             <p className="eyebrow mb-6">A table by the river · Varanasi</p>
             <h1 className="font-display max-w-[11ch] text-[clamp(4rem,10vw,8.8rem)] leading-[0.88] tracking-[-0.045em]">The Terracotta Cafe</h1>
             <p className="mt-8 max-w-md text-lg leading-relaxed text-[hsl(var(--muted-foreground))]">Artisanal Coffee &amp; Cozy Vibes near Assi Ghat</p>
@@ -233,9 +236,9 @@ function ReviewModal({ onClose }: { onClose: () => void }) {
   }, [onClose]);
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[hsl(var(--foreground))]/70 p-5" role="dialog" aria-modal="true" aria-labelledby="reviews-title" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
-      <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-sm bg-[hsl(var(--card))] p-6 shadow-2xl sm:p-10">
+      <div className="review-modal max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-sm bg-[hsl(var(--card))] p-6 shadow-2xl sm:p-10">
         <div className="mb-8 flex items-start justify-between gap-5 border-b border-[hsl(var(--border))] pb-6"><div><p className="eyebrow">What guests say</p><h2 id="reviews-title" className="mt-2 font-display text-4xl">Good words, shared slowly.</h2></div><button type="button" aria-label="Close reviews" onClick={onClose} className="rounded-full p-2 hover:bg-[hsl(var(--muted))]"><X size={20} /></button></div>
-        <div className="grid gap-5 sm:grid-cols-2">{reviews.map((review) => <article key={review.name} className="border border-[hsl(var(--border))] p-5"><div className="flex gap-0.5 text-[hsl(var(--accent))]">{Array.from({ length: 5 }, (_, index) => <Star key={index} size={14} fill="currentColor" aria-label="5 star rating" />)}</div><p className="mt-4 text-sm leading-relaxed text-[hsl(var(--muted-foreground))]">“{review.text}”</p><p className="mt-5 font-semibold">{review.name}</p><p className="mt-1 font-mono text-[10px] uppercase tracking-wider text-[hsl(var(--muted-foreground))]">{review.date}</p></article>)}</div>
+        <div className="grid gap-5 sm:grid-cols-2">{reviews.map((review) => <article key={review.name} className="review-card border border-[hsl(var(--border))] p-5"><div className="flex items-center justify-between gap-4"><div className="flex gap-0.5 text-[hsl(var(--accent))]" aria-label="5 out of 5 stars">{Array.from({ length: 5 }, (_, index) => <Star key={index} size={14} fill="currentColor" aria-hidden="true" />)}</div><span className="font-mono text-[10px] uppercase tracking-wider text-[hsl(var(--muted-foreground))]">5.0 / 5</span></div><p className="mt-4 text-sm leading-relaxed text-[hsl(var(--muted-foreground))]">“{review.text}”</p><p className="mt-5 font-semibold">{review.name}</p><p className="mt-1 font-mono text-[10px] uppercase tracking-wider text-[hsl(var(--muted-foreground))]">{review.date}</p></article>)}</div>
       </div>
     </div>
   );
@@ -248,12 +251,22 @@ function MenuPage({ cart, setCart }: { cart: CartLine[]; setCart: React.Dispatch
   const [tableNumber, setTableNumber] = useState('');
   const [orderError, setOrderError] = useState('');
   const [orderSuccess, setOrderSuccess] = useState(false);
+  const [feedbackItem, setFeedbackItem] = useState<string | null>(null);
+  const [location] = useLocation();
   const activeCategory = menuCategories.find((category) => category.slug === activeSlug) ?? menuCategories[0];
   const total = cart.reduce((sum, item) => sum + priceValue(item.price) * item.quantity, 0);
   const count = cart.reduce((sum, item) => sum + item.quantity, 0);
 
+  useEffect(() => {
+    if (!location.includes('#cart') && window.location.hash !== '#cart') return;
+    const timer = window.setTimeout(() => document.getElementById('cart')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+    return () => window.clearTimeout(timer);
+  }, [location]);
+
   const addToCart = (item: MenuItem) => {
     setOrderSuccess(false);
+    setFeedbackItem(item.name);
+    window.setTimeout(() => setFeedbackItem((current) => current === item.name ? null : current), 1200);
     setCart((current) => {
       const existing = current.find((line) => line.name === item.name);
       return existing ? current.map((line) => line.name === item.name ? { ...line, quantity: line.quantity + 1 } : line) : [...current, { ...item, quantity: 1 }];
@@ -286,11 +299,11 @@ function MenuPage({ cart, setCart }: { cart: CartLine[]; setCart: React.Dispatch
       <div className="grid gap-5 lg:grid-cols-[1fr_360px] lg:items-start">
         <div className="grid gap-4 sm:grid-cols-2">
           {activeCategory.items.map((item, itemIndex) => <article key={item.name} data-testid={`card-menu-${activeSlug}-${itemIndex}`} className="menu-card overflow-hidden rounded-sm border border-[hsl(var(--border))] bg-[hsl(var(--card))]">
-            <div className="relative aspect-[4/5] overflow-hidden bg-[hsl(var(--muted))]"><img src={item.image} alt={`${item.name} at The Terracotta Cafe`} className="h-full w-full object-cover" loading={itemIndex < 2 ? 'eager' : 'lazy'} /><span className="absolute right-3 top-3 rounded-sm bg-[hsl(var(--card))] px-2.5 py-1 font-mono text-xs text-[hsl(var(--primary))]">{item.price}</span></div>
-            <div className="p-5"><h3 className="font-display text-2xl leading-tight">{item.name}</h3><p className="mt-2 text-sm leading-relaxed text-[hsl(var(--muted-foreground))]">{item.description}</p><button type="button" data-testid={`button-add-${activeSlug}-${itemIndex}`} onClick={() => addToCart(item)} className="button-primary mt-5 flex w-full items-center justify-center gap-2 border border-[hsl(var(--primary))] px-4 py-3 text-sm font-semibold text-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))] hover:text-[hsl(var(--primary-foreground))]"><Plus size={16} /> Add to Order</button></div>
+            <div className="aspect-[4/5] overflow-hidden bg-[hsl(var(--muted))]"><img src={item.image} alt={`${item.name} at The Terracotta Cafe`} className="h-full w-full object-cover" loading={itemIndex < 2 ? 'eager' : 'lazy'} /></div>
+            <div className="p-5"><div className="flex items-start justify-between gap-4"><h3 className="font-display text-2xl leading-tight">{item.name}</h3><span className="shrink-0 pt-1 font-mono text-sm text-[hsl(var(--primary))]">{item.price}</span></div><p className="mt-2 text-sm leading-relaxed text-[hsl(var(--muted-foreground))]">{item.description}</p><button type="button" data-testid={`button-add-${activeSlug}-${itemIndex}`} onClick={() => addToCart(item)} className={`button-primary add-order-button mt-5 flex w-full items-center justify-center gap-2 border border-[hsl(var(--primary))] px-4 py-3 text-sm font-semibold text-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))] hover:text-[hsl(var(--primary-foreground))] ${feedbackItem === item.name ? 'is-added' : ''}`} aria-live="polite">{feedbackItem === item.name ? <><Check size={16} /> Added <span className="add-order-badge">+1</span></> : <><Plus size={16} /> Add to Order</>}</button></div>
           </article>)}
         </div>
-        <aside className="order-panel rounded-sm bg-[hsl(var(--secondary))] p-5 sm:p-7 lg:sticky lg:top-24" aria-label="Dine-in order">
+        <aside id="cart" className="order-panel scroll-mt-24 rounded-sm bg-[hsl(var(--secondary))] p-5 sm:p-7 lg:sticky lg:top-24" aria-label="Dine-in cart">
           <div className="flex items-center justify-between border-b border-[hsl(var(--foreground))]/15 pb-5"><div><p className="eyebrow">Dine-in only</p><h2 className="mt-1 font-display text-3xl">Dine-In Details</h2></div><ShoppingBag className="text-[hsl(var(--primary))]" size={23} /></div>
           {orderSuccess ? <OrderSuccess cart={cart} total={total} /> : <form onSubmit={submitOrder} className="mt-6">
             {cart.length === 0 ? <div className="border border-dashed border-[hsl(var(--foreground))]/20 px-4 py-8 text-center text-sm text-[hsl(var(--muted-foreground))]">Your order is empty.<br />Add something lovely from the menu.</div> : <div className="space-y-3">{cart.map((item) => <div key={item.name} className="flex items-center justify-between gap-3 border-b border-[hsl(var(--foreground))]/10 pb-3"><div><p className="text-sm font-semibold">{item.name}</p><p className="mt-1 text-xs text-[hsl(var(--muted-foreground))]">{formatPrice(priceValue(item.price) * item.quantity)}</p></div><div className="flex items-center gap-2"><button type="button" aria-label={`Remove one ${item.name}`} onClick={() => updateQuantity(item.name, -1)} className="rounded-full border border-[hsl(var(--foreground))]/20 p-1"><Minus size={12} /></button><span className="w-4 text-center text-sm">{item.quantity}</span><button type="button" aria-label={`Add one ${item.name}`} onClick={() => updateQuantity(item.name, 1)} className="rounded-full border border-[hsl(var(--foreground))]/20 p-1"><Plus size={12} /></button></div></div>)}</div>}

@@ -103,6 +103,58 @@ button { cursor: pointer; }
   box-shadow: 0 1px 0 rgba(85, 49, 33, 0.12);
   backdrop-filter: blur(12px);
 }
+.site-header.is-reservation:not(.is-scrolled) {
+  background: hsl(var(--primary));
+}
+.site-header.is-reservation:not(.is-scrolled) .header-logo-mark {
+  border-color: hsl(var(--primary-foreground));
+  color: hsl(var(--primary-foreground));
+}
+.site-header.is-reservation:not(.is-scrolled) .header-wordmark,
+.site-header.is-reservation:not(.is-scrolled) .header-nav-link,
+.site-header.is-reservation:not(.is-scrolled) .header-cart-link {
+  color: hsl(var(--primary-foreground));
+}
+.site-header.is-reservation:not(.is-scrolled) .header-cart-link {
+  border-color: hsl(var(--primary-foreground) / 0.4);
+}
+.site-header.is-reservation:not(.is-scrolled) .header-nav-link:hover,
+.site-header.is-reservation:not(.is-scrolled) .header-cart-link:hover {
+  color: hsl(var(--accent));
+}
+.site-header.is-reservation:not(.is-scrolled) .header-book-link {
+  background: hsl(var(--primary-foreground));
+  color: hsl(var(--primary));
+}
+.hero-quote {
+  letter-spacing: -0.02em;
+}
+.review-modal {
+  animation: modal-in 260ms cubic-bezier(.2,.8,.2,1) both;
+}
+.review-card {
+  background: hsl(var(--background) / 0.52);
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+.review-card:hover {
+  transform: translateY(-2px);
+  border-color: hsl(var(--primary) / 0.42);
+  box-shadow: 0 12px 24px rgba(88, 49, 32, 0.08);
+}
+.add-order-button {
+  position: relative;
+  overflow: hidden;
+}
+.add-order-button.is-added {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+.add-order-badge {
+  animation: add-badge-in 420ms cubic-bezier(.2,.8,.2,1) both;
+  color: hsl(var(--accent));
+  font-family: var(--app-font-mono);
+  font-size: 0.7rem;
+}
 .hero-image {
   animation: hero-in 1100ms cubic-bezier(.2,.8,.2,1) both;
 }
@@ -173,6 +225,8 @@ button { cursor: pointer; }
 @keyframes hero-in { from { opacity: 0; transform: scale(1.05); } to { opacity: 1; transform: scale(1); } }
 @keyframes reveal-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes page-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes modal-in { from { opacity: 0; transform: translateY(10px) scale(0.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes add-badge-in { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 1ms !important; transition-duration: 1ms !important; }
 }
