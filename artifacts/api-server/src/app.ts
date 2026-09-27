@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api", router);
 
 // Serve static frontend files
-const distPath = path.resolve(__dirname, "../../dist");
+const distPath = path.resolve(__dirname, "../../terracotta-cafe/dist");
 app.use(express.static(distPath));
 
 // Catch-all route to handle mobile direct page refreshes
