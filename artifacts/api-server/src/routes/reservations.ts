@@ -25,35 +25,51 @@ const transporter = createTransport({
 router.post("/reservations", async (request, response) => {
   const parsed = reservationSchema.safeParse(request.body);
   if (!parsed.success) {
-    response.status(400).json({ message: "Please complete the reservation details and try again." });
+    response
+      .status(400)
+      .json({
+        message: "Please complete the reservation details and try again.",
+      });
     return;
   }
 
   try {
-    const [reservation] = await db.insert(reservationsTable).values(parsed.data).returning({ id: reservationsTable.id });
-
-    try {
-      await transporter.sendMail({
-        from: "akshat2592002@gmail.com",
-        to: "akshat2592002@gmail.com",
-        subject: `New Reservation - ${parsed.data.date}`,
-        text: [
-          `Customer: ${parsed.data.fullName}`,
-          `Phone: ${parsed.data.phone}`,
-          `Date: ${parsed.data.date}`,
-          `Time: ${parsed.data.time}`,
-          `Guests: ${parsed.data.guests}`,
-          `Notes: ${parsed.data.notes || "None"}`,
-        ].join("\n"),
-      });
-    } catch (error) {
-      request.log.error({ err: error, reservationId: reservation.id }, "Reservation saved but notification email failed");
+    const [reservation] = await db
+      .insert(reservationsTable)
+      .values(parsed.data)
+      .returning({ id: reservationsTable.id });
+    if (process.env.ENABLE_EMAILS === "true") {
+      try {
+        await transporter.sendMail({
+          from: "akshat2592002@gmail.com",
+          to: "akshat2592002@gmail.com",
+          subject: `New Reservation - ${parsed.data.date}`,
+          text: [
+            `Customer: ${parsed.data.fullName}`,
+            `Phone: ${parsed.data.phone}`,
+            `Date: ${parsed.data.date}`,
+            `Time: ${parsed.data.time}`,
+            `Guests: ${parsed.data.guests}`,
+            `Notes: ${parsed.data.notes || "None"}`,
+          ].join("\n"),
+        });
+      } catch (error) {
+        request.log.error(
+          { err: error, reservationId: reservation.id },
+          "Reservation saved but notification email failed",
+        );
+      }
     }
 
     response.status(201).json({ success: true, reservationId: reservation.id });
+    response.status(201).json({ success: true, reservationId: reservation.id });
   } catch (error) {
     request.log.error({ err: error }, "Unable to save reservation");
-    response.status(500).json({ message: "We could not save your reservation. Please try again." });
+    response
+      .status(500)
+      .json({
+        message: "We could not save your reservation. Please try again.",
+      });
   }
 });
 
