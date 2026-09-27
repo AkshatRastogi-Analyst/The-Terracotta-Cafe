@@ -3,7 +3,7 @@ import cors from "cors";
 import pinoHttp from "pino-http";
 import router from "./routes";
 import { logger } from "./lib/logger";
-
+import path from "path";
 const app: Express = express();
 
 app.use(
@@ -31,4 +31,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
 
+// Serve static frontend files
+const distPath = path.resolve(__dirname, "../../dist");
+app.use(express.static(distPath));
+
+// Catch-all route to handle mobile direct page refreshes
+app.get("*", (_req, res) => {
+  res.sendFile(path.join(distPath, "index.html"));
+});
 export default app;
